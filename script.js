@@ -54,8 +54,17 @@ let player = {
     movingRight: false,
 };
 
+const WIN_ZONE = {
+    x: 500 - 100,   // left edge of win zone (pixels)
+    y: 0,                   // top edge
+    width: 100,             // width of the zone
+    height: 100,            // height of the zone
+};
+
 let isMoving = false;          // true when a movement key is held (or step queued)
 let animationId = null;
+
+let gameWon = false;
 
 // ─── WALL MAP LOADING ──────────────────────────────────────────────────────
 
@@ -79,6 +88,26 @@ function loadWallMap(img, canvasWidth, canvasHeight) {
 }
 
 // ─── COLLISION DETECTION ──────────────────────────────────────────────────
+
+function isInWinZone(cx, cy, w, h) {
+    const halfW = w / 2;
+    const halfH = h / 2;
+    // Player's bounding box (top‑left, bottom‑right)
+    const left = cx - halfW;
+    const right = cx + halfW;
+    const top = cy - halfH;
+    const bottom = cy + halfH;
+
+    // Win zone edges
+    const winLeft = WIN_ZONE.x;
+    const winRight = WIN_ZONE.x + WIN_ZONE.width;
+    const winTop = WIN_ZONE.y;
+    const winBottom = WIN_ZONE.y + WIN_ZONE.height;
+
+    // Overlap check (AABB collision)
+    return (left < winRight && right > winLeft &&
+            top < winBottom && bottom > winTop);
+}
 
 /**
  * Check if a given pixel (x, y) is a wall.
@@ -208,33 +237,44 @@ function renderLoop() {
  * Update game state: apply movement if possible.
  */
 function update() {
+    // 1. Determine intended movement from held keys/buttons
     let dx = 0, dy = 0;
     if (player.movingUp)    dy -= STEP_SIZE;
     if (player.movingDown)  dy += STEP_SIZE;
     if (player.movingLeft)  dx -= STEP_SIZE;
     if (player.movingRight) dx += STEP_SIZE;
 
-    if (dx === 0 && dy === 0) return; // no movement
+    if (dx === 0 && dy === 0) return;
 
-    const newCx = player.cx + dx;
-    const newCy = player.cy + dy;
-
-    // Clamp center to keep the sprite inside the canvas
-    const halfW = player.width/2;
-    const halfH = player.height/2;
+    // 2. Clamp to canvas edges (so the sprite never goes outside)
+    const halfW = player.width / 2;
+    const halfH = player.height / 2;
     const maxX = canvas.width - halfW;
     const maxY = canvas.height - halfH;
-    const clampedX = Math.min(Math.max(newCx, halfW), maxX);
-    const clampedY = Math.min(Math.max(newCy, halfH), maxY);
 
-    if (!collidesWithWall(clampedX, clampedY, player.width, player.height)) {
-        player.cx = clampedX;
-        player.cy = clampedY;
+    // 3. Try moving horizontally first (X axis)
+    let newCx = player.cx + dx;
+    newCx = Math.min(Math.max(newCx, halfW), maxX);
+    if (!collidesWithWall(newCx, player.cy, player.width, player.height)) {
+        player.cx = newCx;
     } else {
-        // Wall hit – call your placeholder and optionally try sliding
-        onWallHit(clampedX, clampedY, dx, dy);
-        // To allow sliding, you can try moving only X or only Y separately
-        // (similar to earlier sliding logic)
+        // X blocked – call placeholder, but we'll still try Y
+        onWallHit(newCx, player.cy, dx, 0);
+    }
+
+    // 4. Then try moving vertically (Y axis)
+    let newCy = player.cy + dy;
+    newCy = Math.min(Math.max(newCy, halfH), maxY);
+    if (!collidesWithWall(player.cx, newCy, player.width, player.height)) {
+        player.cy = newCy;
+    } else {
+        // Y blocked – call placeholder
+        onWallHit(player.cx, newCy, 0, dy);
+    }
+
+    // 5. (Optional) Win detection
+    if (!gameWon && isInWinZone(player.cx, player.cy, player.width, player.height)) {
+        onWin();
     }
 }
 
@@ -280,13 +320,23 @@ function render() {
  */
 function onWallHit(newX, newY, dx, dy) {
     // ─── INSERT YOUR CUSTOM LOGIC HERE ──────────────────────────────
-    console.log(`Wall hit at (${newX}, ${newY}) moving (${dx}, ${dy})`);
     // Example: flash the canvas border red
     if (canvas) {
         canvas.style.boxShadow = 'inset 0 0 40px rgba(255,0,0,0.6)';
         setTimeout(() => { canvas.style.boxShadow = 'none'; }, 150);
     }
     // ──────────────────────────────────────────────────────────────────
+}
+
+
+
+function onWin() {
+    if (gameWon) return;
+    gameWon = true;
+    // ─── YOUR CUSTOM WIN LOGIC HERE ───
+    console.log('🏆 You reached the exit!');
+    goto(document.querySelector('#winScreen'));
+    // Example: show a message, stop movement, etc.
 }
 
 // ─── STOP / CLEANUP ─────────────────────────────────────────────────────

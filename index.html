@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" 
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+
     <title>дока 3</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
@@ -41,11 +44,15 @@
     <div class="container" id="game" style="display: none;">
         <canvas width="500" height="500"></canvas>
         <div class="controls">
-            <button class="control-button" onmousedown="startMoveUp()" onmouseup="stopMoveUp()" ontouchstart="startMoveUp()" ontouchend="stopMoveUp()">Up</button>
-            <button class="control-button" onmousedown="startMoveDown()" onmouseup="stopMoveDown()" ontouchstart="startMoveDown()" ontouchend="stopMoveDown()">Down</button>
-            <button class="control-button" onmousedown="startMoveLeft()" onmouseup="stopMoveLeft()" ontouchstart="startMoveLeft()" ontouchend="stopMoveLeft()">Left</button>
-            <button class="control-button" onmousedown="startMoveRight()" onmouseup="stopMoveRight()" ontouchstart="startMoveRight()" ontouchend="stopMoveRight()">Right</button>
+            <button class="control-button up" onmousedown="startMoveUp()" onmouseup="stopMoveUp()" ontouchstart="startMoveUp()" ontouchend="stopMoveUp()">⟰</button>
+            <button class="control-button down" onmousedown="startMoveDown()" onmouseup="stopMoveDown()" ontouchstart="startMoveDown()" ontouchend="stopMoveDown()">⟱</button>
+            <button class="control-button left" onmousedown="startMoveLeft()" onmouseup="stopMoveLeft()" ontouchstart="startMoveLeft()" ontouchend="stopMoveLeft()">⭅</button>
+            <button class="control-button right" onmousedown="startMoveRight()" onmouseup="stopMoveRight()" ontouchstart="startMoveRight()" ontouchend="stopMoveRight()">⭆</button>
         </div>
+    </div>
+
+    <div class="container" id="winScreen" style="display: none;">
+        <img src="win.jpg">
     </div>
 
     <img class="loading" src="dotalogo.jpg">

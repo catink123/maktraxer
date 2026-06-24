@@ -77,3 +77,33 @@ img.preload {
     left: 0;
     pointer-events: none;
 }
+
+div.controls {
+    width: 100%;
+    display: grid;
+    grid-template:
+        ". up ." 1fr
+        "left . right" 1fr
+        ". down ." 1fr
+        / 1fr 1fr 1fr;
+
+    & .up {
+        grid-area: up;
+        font-size: 20px;
+    }
+
+    & .down {
+        grid-area: down;
+        font-size: 20px;
+    }
+
+    & .left {
+        grid-area: left;
+        font-size: 30px;
+    }
+
+    & .right {
+        grid-area: right;
+        font-size: 30px;
+    }
+}
