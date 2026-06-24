@@ -39,9 +39,19 @@
     </div>
 
     <div class="container" id="game" style="display: none;">
-        <p>Game</p>
+        <canvas width="500" height="500"></canvas>
+        <div class="controls">
+            <button class="control-button" onmousedown="startMoveUp()" onmouseup="stopMoveUp()" ontouchstart="startMoveUp()" ontouchend="stopMoveUp()">Up</button>
+            <button class="control-button" onmousedown="startMoveDown()" onmouseup="stopMoveDown()" ontouchstart="startMoveDown()" ontouchend="stopMoveDown()">Down</button>
+            <button class="control-button" onmousedown="startMoveLeft()" onmouseup="stopMoveLeft()" ontouchstart="startMoveLeft()" ontouchend="stopMoveLeft()">Left</button>
+            <button class="control-button" onmousedown="startMoveRight()" onmouseup="stopMoveRight()" ontouchstart="startMoveRight()" ontouchend="stopMoveRight()">Right</button>
+        </div>
     </div>
 
     <img class="loading" src="dotalogo.jpg">
+
+    <img class="preload" src="mazevis.png" id="bgImage">
+    <img class="preload" src="mazecol.png" id="wallMapImage">
+    <img class="preload" src="charicon.png" id="charImage">
 </body>
 </html>
