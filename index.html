@@ -2,10 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>дока 3</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <h1>пуджик прадакшенс</h1>
+    <div class="container" id="q1" style="display: none;">
+        <h1>Любишь сеню?</h1>
+        <button onclick="goto(q2)">Дат</button>
+        <button onclick="goto(q1no)">Нит</button>
+    </div>
+    <div class="container" id="q1no" style="display: none;">
+        <img src="q1no.jpg">
+        <button onclick="goto(q1)">Ще раз</button>
+    </div>
+
+    <div class="container" id="q2" style="display: none;">
+        <h1>Согласен?</h1>
+        <button onclick="goto(q3)">Да</button>
+        <button onclick="goto(q2no)">Нет</button>
+    </div>
+    <div class="container" id="q2no" style="display: none;">
+        <img src="q2no.jpg">
+        <button onclick="goto(q1)">Ще раз</button>
+    </div>
+
+    <div class="container" id="q3" style="display: none;">
+        <h1>Затащил?</h1>
+        <button onclick="goto(q3no)">Ес</button>
+        <button onclick="goto(game)">Ноу</button>
+    </div>
+    <div class="container" id="q3no" style="display: none;">
+        <img src="q3no.jpg">
+        <button onclick="goto(q1)">Ще раз</button>
+    </div>
+
+    <div class="container" id="game" style="display: none;">
+        <p>Game</p>
+    </div>
+
+    <img class="loading" src="dotalogo.jpg">
 </body>
 </html>
