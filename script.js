@@ -21,6 +21,33 @@ function setDisplay(el, display) {
     el.style.display = display ? "" : "none";
 }
 
+let dodgeCount = 0;
+function dodgeYes(btn) {
+    if (dodgeCount < 5) {
+        dodgeCount++;
+        const br = btn.getBoundingClientRect();
+        const pr = btn.parentElement.getBoundingClientRect();
+        const minX = -pr.left;
+        const minY = -pr.top;
+        const maxX = window.innerWidth - pr.left - br.width;
+        const maxY = window.innerHeight - pr.top - br.height;
+
+        const x = minX + Math.random() * (maxX - minX);
+        const y = minY + Math.random() * (maxY - minY);
+        btn.style.position = 'absolute';
+        btn.style.left = x + 'px';
+        btn.style.top = y + 'px';
+        btn.style.zIndex = '10';
+    } else {
+        dodgeCount = 0;
+        btn.style.position = '';
+        btn.style.left = '';
+        btn.style.top = '';
+        btn.style.zIndex = '';
+        goto(q3no);
+    }
+}
+
 let anim1, anim2;
 function animateTransition(page1, page2) {
     if (anim1) anim1.cancel();
@@ -78,6 +105,7 @@ function gotoGame() {
     if (anim2) anim2.cancel();
 
     setDisplay(game, true);
+    game.querySelectorAll('.titleSticker').forEach(v => v.play());
 
     anim1 = game.animate([
         { transform: "translateY(100%)", opacity: 0 },
@@ -126,6 +154,7 @@ const sounds = {
     slotsWin: new Howl({ src: ['sounds/slots_win.mp3'], volume: 0.25 }),
     slotsWinAll: new Howl({ src: ['sounds/slots_win_all.mp3'], volume: 0.25 }),
     slotsLose: new Howl({ src: ['sounds/slots_lose.mp3'], volume: 0.25 }),
+    endSound: new Howl({ src: ['sounds/skil.mp3'], volume: 0.25 }),
 };
 
 function makeSoundCallback(sound) {
@@ -148,29 +177,45 @@ document.querySelectorAll('button').forEach(btn => {
  */
 
 const iconData = [
-    { url: 'images/slot_icons/1.png', rarity: 'Common', weight: 10 },
     { url: 'images/slot_icons/2.png', rarity: 'Common', weight: 10 },
-    { url: 'images/slot_icons/3.png', rarity: 'Common', weight: 8 },
     { url: 'images/slot_icons/4.png', rarity: 'Rare', weight: 5 },
     { url: 'images/slot_icons/5.png', rarity: 'Rare', weight: 4 },
-    { url: 'images/slot_icons/6.png', rarity: 'Epic', weight: 2 },
     { url: 'images/slot_icons/7.png', rarity: 'Legendary', weight: 1 },
 ];
 
 function onTriple(item) {
     sounds.slotsWin.play();
-    setDisplay(document.getElementById('tripleWin' + item.id), true);
+    const el = document.getElementById('tripleWin' + item.id);
+    setDisplay(el, true);
+    const videoEl = el.querySelector("video");
+    if (videoEl) {
+        videoEl.play();
+    }
 }
 
 function dismissTripleWin() {
     for (let i = 0; i < totalItems; i++) {
-        setDisplay(document.getElementById('tripleWin' + i), false);
+        const el = document.getElementById('tripleWin' + i);
+        setDisplay(el, false);
+        const videoEl = el.querySelector("video");
+        if (videoEl) {
+            videoEl.pause();
+        }
+    }
+    if (items.every(it => it.locked)) {
+        onAllTriples();
+    } else {
+        spinBtn.disabled = false;
     }
 }
 
 function onAllTriples() {
     sounds.slotsWinAll.play();
-    goto(allWonScreen);
+    sounds.ludoMusic.fade(1, 0, 500);
+    setTimeout(() => {
+        goto(allWonScreen);
+        sounds.endSound.play();
+    }, 500);
 }
 
 const SLOT_COUNT = 3;
@@ -202,7 +247,7 @@ function buildStripHTML() {
 
 function renderStatus() {
     const locked = items.filter(item => item.locked).length;
-    statusContainer.innerHTML = `<div class="status-item">${locked} / ${totalItems} locked</div>`;
+    statusContainer.innerHTML = `<div class="status-item">${locked} / ${totalItems} получено</div>`;
 }
 
 function renderSlots() {
@@ -294,12 +339,6 @@ function gameLoop(timestamp) {
             items[targets[0]].locked = true;
             onTriple(items[targets[0]]);
             renderStatus();
-
-            if (items.every(it => it.locked)) {
-                onAllTriples();
-            } else {
-                spinBtn.disabled = false;
-            }
             return;
         }
 
@@ -366,3 +405,5 @@ window.resetGame = function () {
     renderSlots();
     spinBtn.disabled = false;
 };
+
+document.querySelector('#tripleWin3 video').volume = 0.25;

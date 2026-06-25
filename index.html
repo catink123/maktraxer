@@ -42,7 +42,7 @@
 
     <div class="container" id="q3" style="display: none;">
         <h1>Затащил?</h1>
-        <button onclick="goto(q3no)">Ес</button>
+        <button onclick="dodgeYes(this)">Ес</button>
         <button onclick="gotoFoundGame()">Ноу</button>
     </div>
     <div class="container" id="q3no" style="display: none;">
@@ -59,60 +59,53 @@
     </div>
 
     <div class="container" id="game" style="display: none;">
-        <h1>ЛУДКА</h1>
+        <div class="title">
+            <video class="titleSticker" src="vids/sticker.webm" loop></video>
+            <h1>ЛУДКА</h1>
+            <video class="titleSticker" src="vids/sticker.webm" loop></video>
+        </div>
 
         <div class="slots" id="slotContainer"></div>
 
-            <button id="spinBtn">SPIN</button>
+            <button id="spinBtn">КРУТИТЬ</button>
 
             <div class="status-panel" id="statusContainer"></div>
 
         <div class="overlay" id="tripleWin0" style="display: none;">
-            <!-- TODO: triple win for icon 1 -->
-            <button onclick="dismissTripleWin()">Продолжить</button>
+            <div class="container">
+                <h1>Три любые вещи</h1>
+                <button onclick="dismissTripleWin()">Продолжить</button>
+            </div>
         </div>
         <div class="overlay" id="tripleWin1" style="display: none;">
-            <!-- TODO: triple win for icon 2 -->
-            <button onclick="dismissTripleWin()">Продолжить</button>
+            <div class="container">
+                <img src="images/piva.jpg">
+                <button onclick="dismissTripleWin()">Продолжить</button>
+            </div>
         </div>
         <div class="overlay" id="tripleWin2" style="display: none;">
-            <!-- TODO: triple win for icon 3 -->
-            <button onclick="dismissTripleWin()">Продолжить</button>
+            <div class="container">
+                <video src="vids/cat.webm" loop></video>
+                <button onclick="dismissTripleWin()">Продолжить</button>
+            </div>
         </div>
         <div class="overlay" id="tripleWin3" style="display: none;">
-            <!-- TODO: triple win for icon 4 -->
-            <button onclick="dismissTripleWin()">Продолжить</button>
-        </div>
-        <div class="overlay" id="tripleWin4" style="display: none;">
-            <!-- TODO: triple win for icon 5 -->
-            <button onclick="dismissTripleWin()">Продолжить</button>
-        </div>
-        <div class="overlay" id="tripleWin5" style="display: none;">
-            <!-- TODO: triple win for icon 6 -->
-            <button onclick="dismissTripleWin()">Продолжить</button>
-        </div>
-        <div class="overlay" id="tripleWin6" style="display: none;">
-            <!-- TODO: triple win for icon 7 -->
-            <button onclick="dismissTripleWin()">Продолжить</button>
+            <div class="container">
+                <video src="vids/pudge_dance.webm" loop></video>
+                <button onclick="dismissTripleWin()">Продолжить</button>
+            </div>
         </div>
     </div>
 
     <div class="container" id="allWonScreen" style="display: none;">
-        <!-- TODO: all won content -->
-    </div>
-
-    <div class="container" id="winScreen" style="display: none;">
-        <img src="win.jpg">
+        <img src="images/sf_dance.gif">
+        <h1>Апнял-приподнял тя</h1>
     </div>
 
     <div class="loading">
         <img src="dotalogo.jpg">
         <button style="display: none;" onclick="start()">Начать</button>
     </div>
-
-    <img class="preload" src="mazevis.png" id="bgImage">
-    <img class="preload" src="mazecol.png" id="wallMapImage">
-    <img class="preload" src="charicon.png" id="charImage">
 </body>
 
 </html>

@@ -70,4 +70,26 @@
   align-items: center;
   justify-content: center;
   z-index: 10;
+
+  & div.container {
+    animation: showWindow 1.5s ease;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes showWindow {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+        box-shadow: 0 0 50px 25px #84ec96;
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        box-shadow: 0 0 10px 0px #5e8e66;
+    }
 }

@@ -47,15 +47,33 @@ div.container {
         max-height: calc(100dvh - 300px);
     }
 
-    & h1 {
+    & > h1 {
         margin: 0;
         padding-bottom: 30px;
         padding-top: 10px;
+        text-align: center;
     }
 
-    & canvas {
+    & video, & img {
         width: 100%;
-        aspect-ratio: 1;
+    }
+
+    & div.title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        
+        & h1 {
+            flex-grow: 1;
+            text-align: center;
+            margin: 0;
+        }
+    }
+    
+    & video.titleSticker {
+        height: 60px;
+        width: auto;
     }
 }
 
