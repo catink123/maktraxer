@@ -15,7 +15,7 @@ onFullyLoaded(() => {
     document.querySelector('.loading button').style.display = '';
 });
 
-let currentPage = q3;
+let currentPage = q1;
 
 function setDisplay(el, display) {
     el.style.display = display ? "" : "none";
