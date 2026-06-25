@@ -12,6 +12,7 @@ body {
     color: white;
     font-family: 'Geologica', sans-serif;
     perspective: 800px;
+    overflow: hidden;
 }
 
 body > * {
@@ -129,32 +130,64 @@ img.preload {
     height: 10px;
 }
 
-div.controls {
-    width: 100%;
-    display: grid;
-    grid-template:
-        ". up ." 1fr
-        "left . right" 1fr
-        ". down ." 1fr
-        / 1fr 1fr 1fr;
+div#foundGame {
+    box-shadow: 0px 0px 10px 10px #55815c, 0px 0px 20px 5px black inset;
+    border: none;
+    background: #1c1a1e;
+    padding: 0;
+    gap: 0;
+    overflow: hidden;
 
-    & .up {
-        grid-area: up;
-        font-size: 20px;
+    & div.title {
+        display: flex;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.5);
+        box-shadow: 0 0 5px 0 black;
+        padding: 15px 35px;
+
+        & h2, & h1 {
+            text-align: center;
+            text-transform: uppercase;
+            font-family: 'Geologica', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        & h2 {
+            color: gray;
+            font-weight: 300;
+        }
+
+        & h1 {
+            letter-spacing: 5px;
+        }
     }
 
-    & .down {
-        grid-area: down;
-        font-size: 20px;
+    & button {
+        width: fit-content;
+        margin: 40px 0;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 3px;
+        padding: 10px 20px;
+        box-shadow: none;
+
+        border: 2px solid;
+        border-top-color: rgba(200, 200, 200, 0.15);
+        border-left-color: rgba(200, 200, 200, 0.15);
+        border-bottom-color: rgba(15, 15, 15, 0.25);
+        border-right-color: rgba(15, 15, 15, 0.25);
+        background: radial-gradient(ellipse at center, hsl(153, 22%, 35%), hsl(152, 23%, 13%));
+        background-blend-mode: overlay;
+        background-origin: border-box;
+        background-clip: border-box;
     }
 
-    & .left {
-        grid-area: left;
-        font-size: 30px;
+    & button:hover {
+        background: radial-gradient(ellipse at center, hsl(153, 22%, 45%), hsl(152, 23%, 23%));
     }
 
-    & .right {
-        grid-area: right;
-        font-size: 30px;
+    & button:active {
+        background: radial-gradient(ellipse at center, hsl(153, 22%, 25%), hsl(152, 23%, 3%));
     }
 }

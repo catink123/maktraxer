@@ -43,24 +43,30 @@
     <div class="container" id="q3" style="display: none;">
         <h1>Затащил?</h1>
         <button onclick="goto(q3no)">Ес</button>
-        <button onclick="goto(game)">Ноу</button>
+        <button onclick="gotoFoundGame()">Ноу</button>
     </div>
     <div class="container" id="q3no" style="display: none;">
         <img src="q3no.jpg">
         <button onclick="goto(q1)">Ще раз</button>
     </div>
 
-    <div class="container" id="game" style="display: none;">
-        <div class="slot-machine">
-            <h1>🎰 SLOT</h1>
-
-            <div class="slots" id="slotContainer"></div>
-
-            <button id="spinBtn">SPIN</button>
-            <p class="result-display" id="resultDisplay">Press SPIN</p>
-
-            <div class="status-panel" id="statusContainer"></div>
+    <div class="container" id="foundGame" style="display: none;">
+        <div class="title">
+            <h2>Ваша игра готова</h2>
+            <h1>Лудка</h1>
         </div>
+        <button onclick="gotoGame()">Принять</button>
+    </div>
+
+    <div class="container" id="game" style="display: none;">
+        <h1>ЛУДКА</h1>
+
+        <div class="slots" id="slotContainer"></div>
+
+        <button id="spinBtn">SPIN</button>
+        <p class="result-display" id="resultDisplay">Press SPIN</p>
+
+        <div class="status-panel" id="statusContainer"></div>
     </div>
 
     <div class="container" id="winScreen" style="display: none;">

@@ -15,7 +15,7 @@ onFullyLoaded(() => {
     document.querySelector('.loading button').style.display = '';
 });
 
-let currentPage = game;
+let currentPage = q3;
 
 function setDisplay(el, display) {
     el.style.display = display ? "" : "none";
@@ -48,6 +48,55 @@ function goto(el) {
     currentPage = el;
 }
 
+function gotoFoundGame() {
+    if (anim1) anim1.cancel();
+    if (anim2) anim2.cancel();
+
+    setDisplay(foundGame, true);
+
+    anim1 = currentPage.animate([
+        { transform: "rotateX(0deg)", opacity: 1 },
+        { transform: "rotateX(90deg)", opacity: 0 },
+    ], { duration: 500, fill: 'forwards', easing: 'ease' });
+
+    anim2 = foundGame.animate([
+        { transform: "scale(1.5)", opacity: 0 },
+        { transform: "scale(1.0)", opacity: 1 },
+    ], { duration: 250, fill: 'forwards', easing: 'ease-in'});
+
+    sounds.foundGame.play();
+    sounds.bgMusic.fade(1, 0, 3000);
+
+    Promise.all([anim1.finished, anim2.finished]).then(() => {
+        setDisplay(currentPage, false);
+        currentPage = foundGame;
+    });
+}
+
+function gotoGame() {
+    if (anim1) anim1.cancel();
+    if (anim2) anim2.cancel();
+
+    setDisplay(game, true);
+
+    anim1 = game.animate([
+        { transform: "translateY(100%)", opacity: 0 },
+        { transform: "translateY(0%)", opacity: 1 },
+    ], { duration: 500, fill: 'forwards', easing: 'ease' });
+
+    anim2 = foundGame.animate([
+        { transform: "scale(1.0)", opacity: 1 },
+        { transform: "scale(1.5)", opacity: 0 },
+    ], { duration: 250, fill: 'forwards', easing: 'ease-out'});
+
+    sounds.acceptedGame.play();
+
+    Promise.all([anim1.finished, anim2.finished]).then(() => {
+        setDisplay(currentPage, false);
+        currentPage = game;
+    });
+}
+
 function start() {
     document.querySelector('.loading').classList.add('loaded');
     sounds.bgMusic.play();
@@ -68,6 +117,8 @@ const sounds = {
         release: new Howl({ src: ['sounds/button_release.mp3'], volume: 0.25 }),
         hover: new Howl({ src: ['sounds/button_hover.mp3'], volume: 0.25 }),
     },
+    foundGame: new Howl({ src: ['sounds/game_found.mp3'], volume: 0.25 }),
+    acceptedGame: new Howl({ src: ['sounds/goto_game.mp3'], volume: 0.25 }),
 };
 
 function makeSoundCallback(sound) {
@@ -90,13 +141,13 @@ document.querySelectorAll('button').forEach(btn => {
  */
 
 const iconData = [
-  { url: 'https://emojicdn.elk.sh/🍒', rarity: 'Common', weight: 10 },
-  { url: 'https://emojicdn.elk.sh/🍋', rarity: 'Common', weight: 10 },
-  { url: 'https://emojicdn.elk.sh/🍊', rarity: 'Common', weight: 8 },
-  { url: 'https://emojicdn.elk.sh/🍇', rarity: 'Rare',   weight: 5 },
-  { url: 'https://emojicdn.elk.sh/🍉', rarity: 'Rare',   weight: 4 },
-  { url: 'https://emojicdn.elk.sh/🍓', rarity: 'Epic',   weight: 2 },
-  { url: 'https://emojicdn.elk.sh/🍑', rarity: 'Legendary', weight: 1 },
+  { url: 'images/slot_icons/1.png', rarity: 'Common', weight: 10 },
+  { url: 'images/slot_icons/2.png', rarity: 'Common', weight: 10 },
+  { url: 'images/slot_icons/3.png', rarity: 'Common', weight: 8 },
+  { url: 'images/slot_icons/4.png', rarity: 'Rare',   weight: 5 },
+  { url: 'images/slot_icons/5.png', rarity: 'Rare',   weight: 4 },
+  { url: 'images/slot_icons/6.png', rarity: 'Epic',   weight: 2 },
+  { url: 'images/slot_icons/7.png', rarity: 'Legendary', weight: 1 },
 ];
 
 function onTriple(item) {
@@ -139,10 +190,8 @@ function buildStripHTML(active) {
 }
 
 function renderStatus() {
-  statusContainer.innerHTML = items.map(item => {
-    const cls = item.locked ? 'status-item locked' : 'status-item';
-    return `<div class="${cls}"><img src="${item.url}" alt="" /><span>${item.rarity}</span>${item.locked ? ' 🔒' : ''}</div>`;
-  }).join('');
+  const locked = items.filter(item => item.locked).length;
+  statusContainer.innerHTML = `<div class="status-item">${locked} / ${items.length} locked</div>`;
 }
 
 function renderSlots() {
