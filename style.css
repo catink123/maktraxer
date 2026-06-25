@@ -8,8 +8,19 @@ body {
     place-items: center;
     height: 100dvh;
     margin: 0;
-    background: black;
+    background: radial-gradient(circle at top right, #2d4e64, transparent 75%), radial-gradient(circle at left, #2d4e64, transparent 50%), #0a1217;
     color: white;
+    font-family: 'Geologica', sans-serif;
+    perspective: 800px;
+}
+
+body > * {
+    grid-area: 1 / 1;
+}
+
+h1 {
+    font-family: 'Lora', serif;
+    text-shadow: 0px 5px 5px black;
 }
 
 div.container {
@@ -18,8 +29,17 @@ div.container {
     align-items: center;
     gap: 5px;
     padding: 25px;
-    font-family: sans-serif;
-    border: 1px solid gray;
+    border: 7px solid;
+    border-top-color: rgba(200, 200, 200, 0.15);
+    border-left-color: rgba(200, 200, 200, 0.15);
+    border-bottom-color: rgba(15, 15, 15, 0.25);
+    border-right-color: rgba(15, 15, 15, 0.25);
+    background: url("images/scratches.jpg") center / 300px 300px, linear-gradient(to bottom, rgb(50, 50, 50), rgb(25, 25, 25));
+    background-blend-mode: overlay;
+    background-origin: border-box;
+    background-clip: border-box;
+    transform-origin: center center -200px;
+    backface-visibility: hidden;
 
     & img {
         max-width: calc(100dvw - 50px);
@@ -39,35 +59,64 @@ div.container {
 }
 
 button {
-    background : rgba(150, 150, 150, 0.5);
-    border: 1px solid gray;
+    background: rgb(75, 75, 75);
+    border: 1px solid rgb(100, 100, 100);
+    box-shadow: 0px 5px 5px 0 rgba(0, 0, 0, 0.5), 0px 0px 5px 0 rgb(100, 100, 100) inset;
     color: white;
     padding: 10px;
     font-size: 20px;
     flex-grow: 1;
     width: 100%;
+    font-family: 'Geologica', sans-serif;
 }
 
-button:active {
-    background: rgb(255, 255, 255);
-    color: gray;
+button:hover {
+    background: rgb(100, 100, 100);
+    box-shadow: 0px 5px 10px 2px rgba(0, 0, 0, 0.5);
 }
 
-img.loading {
-    background: red;
+button:active, button:hover:active {
+    background: rgb(50, 50, 50);
+    border: 1px solid rgb(75, 75, 75);
+    box-shadow: 0px 5px 2px 0 rgba(0, 0, 0, 0.5), 0px 0px 5px 0 rgb(75, 75, 75) inset;
+}
+
+div.loading {
     width: 100dvw;
     height: 100dvh;
     position: fixed;
     top: 0;
     left: 0;
-    object-fit: cover;
+    display: grid;
+    place-items: end center;
+
+    & img {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        object-fit: cover;
+    }
+
+    & button {
+        z-index: 1;
+        width: fit-content;
+        margin-bottom: 50px;
+    }
 }
 
-img.loading.loaded {
-    transition-duration: 0.5s;
-    transition-delay: 1s;
+div.loading.loaded {
+    transition-duration: 2s;
+    transition-delay: .5s;
+    transition-timing-function: linear;
     opacity: 0;
     pointer-events: none;
+
+    & button {
+        transition-duration: .5s;
+        opacity: 0;
+    }
 }
 
 img.preload {
@@ -76,6 +125,8 @@ img.preload {
     top: 0;
     left: 0;
     pointer-events: none;
+    width: 10px;
+    height: 10px;
 }
 
 div.controls {

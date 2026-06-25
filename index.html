@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="viewport" 
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
     <title>дока 3</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="slots.css">
+    <script src="libs/howler.min.js"></script>
     <script src="script.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geologica:wght,CRSV@100..900,0&family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <div class="container" id="q1" style="display: none;">
         <h1>Любишь сеню?</h1>
@@ -42,12 +51,15 @@
     </div>
 
     <div class="container" id="game" style="display: none;">
-        <canvas width="500" height="500"></canvas>
-        <div class="controls">
-            <button class="control-button up" onmousedown="startMoveUp()" onmouseup="stopMoveUp()" ontouchstart="startMoveUp()" ontouchend="stopMoveUp()">⟰</button>
-            <button class="control-button down" onmousedown="startMoveDown()" onmouseup="stopMoveDown()" ontouchstart="startMoveDown()" ontouchend="stopMoveDown()">⟱</button>
-            <button class="control-button left" onmousedown="startMoveLeft()" onmouseup="stopMoveLeft()" ontouchstart="startMoveLeft()" ontouchend="stopMoveLeft()">⭅</button>
-            <button class="control-button right" onmousedown="startMoveRight()" onmouseup="stopMoveRight()" ontouchstart="startMoveRight()" ontouchend="stopMoveRight()">⭆</button>
+        <div class="slot-machine">
+            <h1>🎰 SLOT</h1>
+
+            <div class="slots" id="slotContainer"></div>
+
+            <button id="spinBtn">SPIN</button>
+            <p class="result-display" id="resultDisplay">Press SPIN</p>
+
+            <div class="status-panel" id="statusContainer"></div>
         </div>
     </div>
 
@@ -55,10 +67,14 @@
         <img src="win.jpg">
     </div>
 
-    <img class="loading" src="dotalogo.jpg">
+    <div class="loading">
+        <img src="dotalogo.jpg">
+        <button style="display: none;" onclick="start()">Начать</button>
+    </div>
 
     <img class="preload" src="mazevis.png" id="bgImage">
     <img class="preload" src="mazecol.png" id="wallMapImage">
     <img class="preload" src="charicon.png" id="charImage">
 </body>
+
 </html>
